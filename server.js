@@ -44,7 +44,7 @@ app.post('/send-message', async (req, res) => {
         return res.status(400).json({ success: false, message: 'Falta número o mensaje' });
     }
     try {
-        const chatId = number.replace('+', '') + "@c.us";
+        const chatId = number.replace(/\D/g, '') + "@c.us";
         await client.sendMessage(chatId, message);
         res.status(200).json({ success: true, message: 'Mensaje enviado' });
     } catch (error) {
