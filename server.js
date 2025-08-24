@@ -1,18 +1,10 @@
 const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const cors = require('cors'); // La librería que maneja los permisos
+const cors = require('cors');
 
 const app = express();
-
-// --- CONFIGURACIÓN DE CORS MEJORADA ---
-// Le decimos explícitamente que acepte peticiones de cualquier origen.
-// El asterisco '*' significa "cualquiera".
-app.use(cors({
-  origin: '*'
-}));
-// ------------------------------------
-
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 const client = new Client({
@@ -44,7 +36,7 @@ app.post('/send-message', async (req, res) => {
         return res.status(400).json({ success: false, message: 'Falta número o mensaje' });
     }
     try {
-        const chatId = number.replace(/\D/g, '') + "@c.us";
+        const chatId = number.replace('+', '') + "@c.us"; // Formato simple y probado
         await client.sendMessage(chatId, message);
         res.status(200).json({ success: true, message: 'Mensaje enviado' });
     } catch (error) {
