@@ -1,10 +1,18 @@
 const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
-const cors = require('cors'); // <-- LÍNEA NUEVA 1
+const cors = require('cors'); // La librería que maneja los permisos
 
 const app = express();
-app.use(cors()); // <-- LÍNEA NUEVA 2
+
+// --- CONFIGURACIÓN DE CORS MEJORADA ---
+// Le decimos explícitamente que acepte peticiones de cualquier origen.
+// El asterisco '*' significa "cualquiera".
+app.use(cors({
+  origin: '*'
+}));
+// ------------------------------------
+
 app.use(express.json());
 
 const client = new Client({
